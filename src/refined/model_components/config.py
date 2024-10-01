@@ -21,7 +21,7 @@ NER_TAG_TO_IX = {
     "B-QUANTITY": 13,
     "I-QUANTITY": 14,
     "B-MENTION": 15,
-    "I-MENTION": 16
+    "I-MENTION": 16,
 }
 
 
@@ -60,7 +60,11 @@ class ModelConfig:
     ner_tag_to_ix: Dict[str, int] = field(default_factory=lambda: NER_TAG_TO_IX)
 
     def __post_init__(self):
-        tokenizer = get_tokenizer(transformer_name=self.transformer_name, data_dir=self.data_dir)
+        tokenizer = get_tokenizer(
+            transformer_name=self.transformer_name,
+            data_dir=self.data_dir,
+            add_special_tokens=True,
+        )
         self.sep_token_id = tokenizer.sep_token_id
         self.cls_token_id = tokenizer.cls_token_id
         self.mask_token_id = tokenizer.mask_token_id
